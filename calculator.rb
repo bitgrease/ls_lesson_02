@@ -6,6 +6,17 @@ def say(msg)
   puts "=> #{msg}"
 end
 
+def get_name
+  loop do
+    say "Welcome to Calculator! Enter your name: "
+    name = gets.chomp
+    if name.match?(/^[a-zA-Z]+$/)
+      return name
+    end
+    say "Please enter a valid name (letters only)."
+  end
+end
+
 def get_number
   entered_number = nil
   loop do
@@ -20,9 +31,15 @@ end
 
 def get_operator
   operation = nil
+  operator_prompt = <<-MSG
+    Enter your desired operation:
+    1) Add
+    2) Subtract
+    3) Divide
+    4) Multiply
+  MSG
   loop do
-    say 'Enter your desired operation - 1) Add, 2) Subtract, 3) Divide, 4)' \
-    + ' Multiply:'
+    say operator_prompt
     operation = gets.chomp
     break if %w[1 2 3 4].include? operation
     say 'You must enter the number for the operation - 1,2,3,or 4.'
@@ -32,26 +49,35 @@ end
 
 def do_math(num1, num2, operator)
   # Decide if floats are entered or appropriate in case of division
-  to_method = if num1.match(/\d+\.\d+/) || num2.match(/\d+\.\d+/) || \
+  converter = if num1.match?(/\d+\.\d+/) || num2.match?(/\d+\.\d+/) || \
                  operator.eql?('3')
                 'to_f'
               else
                 'to_i'
               end
-  case operator
-  when '1' then say "#{num1} + #{num2} = " \
-    + "#{num1.send(to_method) + num2.send(to_method)}."
-  when '2' then say "#{num1} - #{num2} = " \
-    + "#{num1.send(to_method) - num2.send(to_method)}."
-  when '3' then say "#{num1} / #{num2} = " \
-    + "#{num1.send(to_method) / num2.send(to_method)}."
-  when '4' then say "#{num1} * #{num2} = " \
-    + "#{num1.send(to_method) * num2.send(to_method)}."
-  end
+  result = case operator
+           when '1'
+             "#{num1} + #{num2} = " \
+               + "#{num1.send(converter) + num2.send(converter)}"
+           when '2'
+             "#{num1} - #{num2} = " \
+               + "#{num1.send(converter) - num2.send(converter)}"
+           when '3'
+             "#{num1} / #{num2} = " \
+               + "#{num1.send(converter) / num2.send(converter)}"
+           when '4'
+             "#{num1} * #{num2} = " \
+               + "#{num1.send(converter) * num2.send(converter)}"
+           end
+  puts result
 end
 
+name = get_name
+say "Alrigh #{name}, let's do math!"
 loop do
   do_math(get_number, get_number, get_operator)
-  puts 'Do another operation?(y/n):'
+  say 'Do another operation?(y/n):'
   break if gets.chomp.casecmp('n').zero?
 end
+
+say "Thanks for your time #{name}. Calc You Later!"
