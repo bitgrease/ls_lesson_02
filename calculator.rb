@@ -7,12 +7,12 @@ def say(msg)
 end
 
 def operator_to_message(op)
-  case op
-  when '1' then op_text = 'Adding'
-  when '2' then op_text = 'Subtracting'
-  when '3' then op_text = 'Dividing'
-  when '4' then op_text = 'Multiplying'
-  end
+  op_text case op
+          when '1' then 'Adding'
+          when '2' then 'Subtracting'
+          when '3' then 'Dividing'
+          when '4' then 'Multiplying'
+          end
   op_text
 end
 
