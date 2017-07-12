@@ -1,0 +1,14 @@
+# calculator_messages.yml
+
+welcome: 'Welcome to Calculator! Enter your name: '
+valid_name: 'Please enter a valid name (letters only).'
+enter_number: 'Enter a number: '
+valid_number: 'You must enter an integer or a float!'
+prompt_for_operator: |
+    Enter your desired operation:
+    1) Add
+    2) Subtract
+    3) Divide
+    4) Multiply
+valid_operation: 'You must enter the number for the operation - 1,2,3,or 4.'
+another_operation?: 'Do another operation?(y/n):'
