@@ -31,8 +31,8 @@ def get_number
   loop do
     say 'Enter a number: '
     entered_number = gets.chomp
-    # Float will catch both Integer and Floats
-    break if Float(entered_number) rescue false
+    # Allow entry of integers or floats
+    break if entered_number.match?(/^(\+|\-){0,1}\d+\.{0,1}\d*$/)
     say 'You must enter an integer or a float!'
   end
   entered_number
