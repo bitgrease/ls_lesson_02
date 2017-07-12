@@ -6,6 +6,15 @@ def say(msg)
   puts "=> #{msg}"
 end
 
+def operator_to_message(op)
+  case op
+  when '1' then 'Adding'
+  when '2' then 'Subtracting'
+  when '3' then 'Dividing'
+  when '4' then 'Multiplying'
+  end
+end
+
 def get_name
   loop do
     say "Welcome to Calculator! Enter your name: "
@@ -55,6 +64,7 @@ def do_math(num1, num2, operator)
               else
                 'to_i'
               end
+  say "#{operator_to_message(operator)} #{num1} and #{num2}..."
   result = case operator
            when '1'
              "#{num1} + #{num2} = " \
@@ -73,7 +83,7 @@ def do_math(num1, num2, operator)
 end
 
 name = get_name
-say "Alrigh #{name}, let's do math!"
+say "Alright #{name}, let's do math!"
 loop do
   do_math(get_number, get_number, get_operator)
   say 'Do another operation?(y/n):'
