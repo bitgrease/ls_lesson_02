@@ -24,7 +24,7 @@ def get_name
     if name.match?(/^[a-zA-Z]+$/)
       return name
     end
-    say MESSAGES['valid_message']
+    say MESSAGES['valid_name']
   end
 end
 
