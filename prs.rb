@@ -10,23 +10,21 @@ def choice
     say("Choose one: #{VALID_CHOICES.join(', ')}: ")
     choice = gets.chomp
     if VALID_CHOICES.include? choice.downcase
-      return choice
+      return choice.downcase
     end
   end
 end
 
 def find_winner(computer_choice, user_choice)
-  computer_win = case
-                 when computer_choice.eql?(user_choice)
-                   TIE
-                 when computer_choice.eql?('paper')
-                   user_choice.eql?('rock') ? true : false
-                 when computer_choice.eql?('rock')
-                   user_choice.eql?('scissors') ? true : false
-                 when computer_choice.eql?('scissors')
-                   user_choice.eql?('paper') ? true : false
-                 end
-  computer_win
+  case
+  when computer_choice.eql?(user_choice) then TIE
+  when computer_choice.eql?('paper')
+    user_choice.eql?('rock') ? true : false
+  when computer_choice.eql?('rock')
+    user_choice.eql?('scissors') ? true : false
+  when computer_choice.eql?('scissors')
+    user_choice.eql?('paper') ? true : false
+  end
 end
 
 user_choice = nil
