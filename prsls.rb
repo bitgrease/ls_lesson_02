@@ -40,6 +40,7 @@ end
 user_choice = nil
 computer_win = nil
 system 'clear'
+system 'cls'
 use_prompt("Play Rock, Paper, Scissors, Lizard Spock!", false)
 loop do
   user_choice = choice
@@ -58,4 +59,5 @@ loop do
   use_prompt("Play again?(Y/N)")
   break unless gets.chomp.downcase.start_with? 'y'
   system 'clear'
+  system 'cls'
 end
