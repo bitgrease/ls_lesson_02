@@ -24,13 +24,12 @@ def find_winner(computer_choice, user_choice)
     user_choice.eql?('scissors')
   when computer_choice.eql?('scissors')
     user_choice.eql?('paper')
-  else
-    false
   end
 end
 
 user_choice = nil
 computer_win = nil
+system 'cls'
 system 'clear'
 use_prompt("Play Rock, Paper, Scissors!", false)
 loop do
@@ -48,5 +47,6 @@ loop do
   end
   use_prompt("Play again?(Y/N)")
   break unless gets.chomp.downcase.start_with? 'y'
+  system 'cls'
   system 'clear'
 end
