@@ -14,6 +14,10 @@ WINS_AGAINST = {
   'spock'    => %w[rock scissors]
 }
 
+COMPUTER = :computer
+PLAYER = :player
+TIE = :tie
+
 def display_prompt(msg, prepend_arrow = true)
   puts prepend_arrow ? "=> #{msg}" : msg
 end
@@ -30,9 +34,14 @@ def choice
   end
 end
 
-def find_winner(computer_choice, user_choice)
-  return :tie if computer_choice.eql? user_choice
-  WINS_AGAINST[computer_choice].include? user_choice
+def winning_player_or_tie(computer_choice, user_choice)
+  if computer_choice.eql? user_choice
+    TIE
+  elsif WINS_AGAINST[computer_choice].include? user_choice
+    COMPUTER
+  else
+    PLAYER
+  end
 end
 
 def overall_winner?(wins_count)
@@ -42,7 +51,7 @@ end
 total_computer_wins = 0
 total_player_wins = 0
 user_choice = nil
-computer_win = nil
+winner_or_tie = nil
 
 system 'clear'
 system 'cls'
@@ -52,15 +61,15 @@ display_prompt("First to win 5 times wins the tournament!")
 loop do
   user_choice = choice
   computer_choice = VALID_CHOICES.keys.sample
-  computer_win = find_winner(computer_choice, user_choice)
+  winner_or_tie = winning_player_or_tie(computer_choice, user_choice)
 
   display_prompt("Computer chose: #{computer_choice.capitalize} - You chose: " \
             + "#{user_choice.capitalize}.", false)
 
-  if computer_win.eql?(:tie)
+  if winner_or_tie.eql? TIE
     # don't count ties in overall wins
     display_prompt("That's a TIE!!")
-  elsif computer_win
+  elsif winner_or_tie.eql? COMPUTER
     display_prompt("Sorry, you lost!", false)
     total_computer_wins += 1
   else
