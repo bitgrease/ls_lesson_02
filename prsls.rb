@@ -1,5 +1,3 @@
-TIE = -1
-
 VALID_CHOICES = {
   'rock'     => 'r',
   'paper'    => 'p',
@@ -16,14 +14,14 @@ WINS_AGAINST = {
   'spock'    => %w[rock scissors]
 }
 
-def use_prompt(msg, prompt_bool=true)
-  puts prompt_bool ? "=> #{msg}" : msg
+def display_prompt(msg, prepend_arrow = true)
+  puts prepend_arrow ? "=> #{msg}" : msg
 end
 
 def choice
   loop do
-    use_prompt("Choose one: #{VALID_CHOICES.keys.join(', ')}.")
-    use_prompt("Or use the following abbreviations " \
+    display_prompt("Choose one: #{VALID_CHOICES.keys.join(', ')}.")
+    display_prompt("Or use the following abbreviations " \
                + "#{VALID_CHOICES.values.join(', ')}: ")
     short_values = VALID_CHOICES.values
     choice = gets.chomp.downcase
@@ -32,8 +30,8 @@ def choice
   end
 end
 
-def win?(computer_choice, user_choice)
-  return TIE if computer_choice.eql? user_choice
+def find_winner(computer_choice, user_choice)
+  return :tie if computer_choice.eql? user_choice
   WINS_AGAINST[computer_choice].include? user_choice
 end
 
@@ -45,28 +43,34 @@ total_computer_wins = 0
 total_player_wins = 0
 user_choice = nil
 computer_win = nil
+
 system 'clear'
 system 'cls'
-use_prompt("Play Rock, Paper, Scissors, Lizard Spock!", false)
+display_prompt("Play Rock, Paper, Scissors, Lizard Spock!", false)
+display_prompt("First to win 5 times wins the tournament!")
+
 loop do
   user_choice = choice
   computer_choice = VALID_CHOICES.keys.sample
-  computer_win = win?(computer_choice, user_choice)
-  use_prompt("Computer chose: #{computer_choice.capitalize} - You chose: " \
+  computer_win = find_winner(computer_choice, user_choice)
+
+  display_prompt("Computer chose: #{computer_choice.capitalize} - You chose: " \
             + "#{user_choice.capitalize}.", false)
 
-  if computer_win == TIE
+  if computer_win.eql?(:tie)
     # don't count ties in overall wins
-    use_prompt("That's a TIE!!")
+    display_prompt("That's a TIE!!")
   elsif computer_win
-    use_prompt("Sorry, you lost!", false)
+    display_prompt("Sorry, you lost!", false)
     total_computer_wins += 1
   else
-    use_prompt("Congrats! You WON!!!", false)
+    display_prompt("Congrats! You WON!!!", false)
     total_player_wins += 1
   end
 
-  use_prompt("Computer: #{total_computer_wins} - Player: #{total_player_wins}")
+  display_prompt("Computer: #{total_computer_wins} - " \
+                 + "Player: #{total_player_wins}")
+
   if overall_winner?(total_computer_wins)
     puts 'Computer won the tournament ' \
          + "#{total_computer_wins}/#{total_player_wins}."
@@ -77,11 +81,14 @@ loop do
 
   if overall_winner?(total_computer_wins) ||
      overall_winner?(total_player_wins)
-    use_prompt("Play a new tournament?(Y/N)")
+    display_prompt("Play a new tournament?(Y/N)")
+    total_computer_wins = total_player_wins = 0
   else
-    use_prompt("Play again?(Y/N)")
+    display_prompt("Play again?(Y/N)")
   end
+
   break unless gets.chomp.downcase.start_with? 'y'
+
   system 'clear'
   system 'cls'
 end
